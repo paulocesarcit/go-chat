@@ -2,7 +2,10 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
+	"io"
+	"net"
 	"os"
 )
 
@@ -24,7 +27,7 @@ func main() {
 		nick = string(buf)
 	}
 
-	var conn net.conn
+	var conn net.Conn
 	var err error
 
 	for {

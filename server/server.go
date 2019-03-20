@@ -1,6 +1,9 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -21,6 +24,8 @@ func main() {
 		log.Fatal("Can't listen on " + addr)
 		os.Exit(1)
 	}
+
+	fmt.Printf("Server Started\n")
 
 	for {
 		conn, _ := listener.Accept()
@@ -50,12 +55,12 @@ func handleConnection(conn net.Conn) {
 				break
 			}
 		}
-		sendToOtherClients(data)
+		sendToOtherClients(conn, data)
 		data = make([]byte, 0)
 	}
 }
 
-func sendToOtherClients(conn net.Conn, data []byte) {
+func sendToOtherClients(sender net.Conn, data []byte) {
 
 	for i := 0; i < len(clients); i++ {
 		if clients[i] != sender {
